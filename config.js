@@ -13,7 +13,7 @@ module.exports = {
   HEROKU_API_KEY: process.env.HEROKU_API_KEY || "",
   OWNER_NAME: process.env.OWNER_NAME || "Afx-Nasim",
   BOT_NAME: process.env.BOT_NAME || "FINU-USER-BOT",
-  THUMB_NAIL: process.env.THUMB_NAIL || "https://i.imgur.com/KY03JjV.jpeg",
+  THUMB_NAIL: process.env.THUMB_NAIL || "https://i.imgur.com/Uga7UB5.jpeg",
   ABHI_API: process.env.ABHI_API || "https://abhi-api-bvws.onrender.com/", //Dont change this some commands will not work
   ALIVE_MSG: process.env.ALIVE_MSG || "Hey {sender}, I'm alive \n Uptime: {uptime}",
   ALIVE_LOGO: process.env. ALIVE_LOGO || "https://i.imgur.com/KY03JjV.jpeg",
