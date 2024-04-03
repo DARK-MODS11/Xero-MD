@@ -5,12 +5,12 @@ const { PluginDB, installPlugin } = require("../lib/database").Plugins;
 
 clash({pattern: "plugin", fromMe: true, desc: "Installs external plugins", type: "user",},
 async ({args, msg}) => {
-if (!args) return msg.tinyreply("*Send a valid plugin url*");
+if (!args) return msg.tinyreply("_Send a valid plugin url_");
 try {
 var url = new URL(args);
 } catch (e) {
 console.log(e);
-return msg.tinyreply("*Invalid Url!*");
+return msg.tinyreply("_Invalid Url!_");
 }
 if (url.host === "gist.github.com") {
 url.host = "gist.githubusercontent.com";
@@ -31,10 +31,10 @@ try {
 require("./" + plugin_name);
 } catch (e) {
 fs.unlinkSync(__dirname + "/" + plugin_name + ".js");
-return  msg.tinyreply("*Invalid Plugin*\n ```" + e + "```");
+return  msg.tinyreply("_Invalid Plugin_\n ```" + e + "```");
 }
 await installPlugin(url, plugin_name);
-await msg.tinyreply(`*New plugin installed : ${plugin_name}_*`);
+await msg.tinyreply(`_New plugin installed : ${plugin_name}_`);
 }});
 
 clash({ pattern: "listplugin", fromMe: true, desc: "Shows all installed plugins", type: "user" },
@@ -42,7 +42,7 @@ async ({msg}) => {
 var mesaj = "";
 var plugins = await PluginDB.findAll();
 if (plugins.length < 1) {
-return msg.tinyreply("*No external plugins installed*");
+return msg.tinyreply("_No external plugins installed_");
 } else {
 plugins.map((plugin) => {
 mesaj +=
@@ -57,13 +57,13 @@ return msg.reply(mesaj);
 
 clash({pattern: "remove(?: |$)(.*)", fromMe: true, desc: "Remove installed external plugins", type: "user", },
 async ({msg, args}) => {
-if (!args) return msg.tinyreply("*Need a external installed plugin name*");
+if (!args) return msg.tinyreply("_Need a external installed plugin name_");
 var plugin = await PluginDB.findAll({ where: { name: args } });
 if (plugin.length < 1) {
-return msg.tinyreply("*Plugin not found*");
+return msg.tinyreply("_Plugin not found_");
 } else {
 await plugin[0].destroy();
 delete require.cache[require.resolve("./" + args + ".js")];
 fs.unlinkSync(__dirname + "/" + args + ".js");
-await msg.tinyreply(`*Plugin ${args} deleted*`);
+await msg.tinyreply(`_Plugin ${args} deleted_`);
 }});
