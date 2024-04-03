@@ -5,9 +5,9 @@ const axios = require("axios");
 clash({pattern: "insta", fromMe: false, desc: "Download posts from Instagram", type: "downloader",},
 async ({args, msg, conn}) => {
 if(!args) return await msg.tinyreply("_Enter instagram post url!_");
-let {key} = await msg.tinyreply("_Please wait...._");
+let {key} = await msg.tinyreply("_Please wait..._");
 try{
-var res = await axios.get(`https://toxic-kichux-aswin-sparky.koyeb.app/api/instagram?url=${args}`)
+var res = await axios.get(`https://toxic-kichux-aswin-sparky.koyeb.app/api/instagramstory?query=${args}`)
 let response = await res.data
 for (let i of response.data) {
 var type = i.type
