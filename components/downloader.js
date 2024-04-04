@@ -7,7 +7,7 @@ async ({args, msg, conn}) => {
 if(!args) return await msg.tinyreply("_Enter instagram post url!_");
 let {key} = await msg.tinyreply("_Please wait..._");
 try{
-var res = await axios.get(`https://toxic-kichux-aswin-sparky.koyeb.app/api/instagram?url=https://www.instagram.com/reel/C2j00o2ghc1/?igsh=aHdoazJzNXhnaHZ1=${args}`)
+var res = await axios.get(`https://toxic-kichux-aswin-sparky.koyeb.app/api/instagram?url=${args}`)
 let response = await res.data
 for (let i of response.data) {
 var type = i.type
