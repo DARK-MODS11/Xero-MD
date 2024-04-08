@@ -17,6 +17,6 @@ return await msg.editmsg("_Uploaded By FINU-BOT_", key);
 }
 } catch (e) {
 console.log(e);
-msg.editmsg("*_Not Available_", key);
+msg.editmsg("_Not Available_", key);
 }
 });
