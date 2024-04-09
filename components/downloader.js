@@ -1,22 +1,31 @@
-const {clash} = require("../lib/");
+const { clash, getBuffer } = require("../lib/");
 const fetch = require("node-fetch");
 const axios = require("axios");
+const { fromBuffer } = require("file-type");
+
+async function FiletypeFromUrl(url) {
+  const buffer = await getBuffer(url);
+  const out = await fromBuffer(buffer);
+  let type;
+  if (out) {
+    type = out.mime.split("/")[0];
+  }
+  return { type, buffer };
+}
+
 
 clash({pattern: "insta", fromMe: false, desc: "Download posts from Instagram", type: "downloader",},
 async ({args, msg, conn}) => {
-if(!args) return await msg.tinyreply("_Enter instagram post url!_");
-let {key} = await msg.tinyreply("_Please Wait Downloading..._");
+if(!args) return await msg.tinyreply("*_Enter instagram post url!_*");
+let {key} = await msg.tinyreply("_*Please Wait Downloading...*_");
 try{
-var res = await axios.get(`https://toxic-kichux-aswin-sparky.koyeb.app/api/insta?url=${args}`)
-let response = await res.data
-for (let i of response.data) {
-var type = i.type
-//var media = await (await fetch(`${i.url}`)).buffer()
-await conn.sendMessage(msg.from,{[type]:{url:i.url}},{quoted:msg});
-return await msg.editmsg("_Uploaded By FINU-BOT_", key);
-}
-} catch (e) {
-console.log(e);
-msg.editmsg("_Not Available_", key);
+let sample = await axios.get(`https://upper-romy-inrl-bot.koyeb.app/api/download/insta?url=${args}&apikey=zeta007`);
+let zeta = sample.data.result[0].url;
+let ty = await FiletypeFromUrl(zeta);
+let type = ty.type;
+await conn.sendMessage(msg.from,{[type]:{url:zeta}},{quoted:msg});
+return await msg.editmsg("_*Uploaded By FINU-BOT*_", key);
+}catch(e){
+return msg.editmsg("_*Not Available*_", key);
 }
 });
