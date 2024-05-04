@@ -1,3 +1,7 @@
+const {clash} = require("../lib/");
+const fetch = require("node-fetch");
+const axios = require("axios");
+
 clash({pattern: "insta", fromMe: false, desc: "Download posts from Instagram", type: "downloader",},
 async ({args, msg, conn}) => {
 if(!args) return await msg.tinyreply("*_Give me insta  url_*");
