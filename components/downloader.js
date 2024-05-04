@@ -1,31 +1,72 @@
-const { clash, getBuffer } = require("../lib/");
-const fetch = require("node-fetch");
-const axios = require("axios");
-const { fromBuffer } = require("file-type");
-
-async function FiletypeFromUrl(url) {
-  const buffer = await getBuffer(url);
-  const out = await fromBuffer(buffer);
-  let type;
-  if (out) {
-    type = out.mime.split("/")[0];
-  }
-  return { type, buffer };
-}
-
-
 clash({pattern: "insta", fromMe: false, desc: "Download posts from Instagram", type: "downloader",},
 async ({args, msg, conn}) => {
-if(!args) return await msg.tinyreply("*_Enter instagram post url!_*");
-let {key} = await msg.tinyreply("_*Please Wait Downloading...*_");
-try{
-let sample = await axios.get(`https://upper-romy-inrl-bot.koyeb.app/api/download/insta?url=${args}&apikey=zeta007`);
-let zeta = sample.data.result[0].url;
-let ty = await FiletypeFromUrl(zeta);
-let type = ty.type;
-await conn.sendMessage(msg.from,{[type]:{url:zeta}},{quoted:msg});
-return await msg.editmsg("_*Uploaded By FINU-BOT*_", key);
-}catch(e){
-return msg.editmsg("_*Not Available*_", key);
+if(!args) return await msg.tinyreply("*_Give me insta  url_*");
+{let {key} = await mg.tinyreply("_Downloading_")
+  try{
+var res = await axios.get(`https://api/url=${args}`)
+let response = await res.data
+for (let i of response.data) {
+var type = i.type
+await conn.sendMsg(m.from,{[type]:{url:i.url}},{caption:`_*Downloading ${response.data.title}*_\n\n*_BY SUPERIOR_|| XERO-MD*`},{quoted:msg});
+return await msg.editmsg("_Successfull!_", key);
+}
+} catch (e) {
+msg.editmsg("_Error!_", key);
+}
 }
 });
+
+clash(
+  { 
+    pattern: "yta", 
+    fromMe: false, 
+    desc: "Download YouTube videos", 
+    type: "downloader", 
+  }, 
+  async ({ args, msg, conn }) => {
+    if (!args) return await msg.tinyreply("_Give me a youtube URL_");
+    let { key } = await msg.tinyreply("_Downloading_");
+   try {  
+     await conn.sendMessage(msg.from, { audio: { url: `https://api.url=${args}`}},(msg.from,{audio: songbuff, mimetype : 'audio'} , { quoted : msg})); 
+     return await msg.editmsg("_Successful!_", key);
+   } catch (e) {
+      msg.editmsg("_Error!_", key);
+    }
+  }
+);
+
+
+clash(
+  { 
+    pattern: "ytv", 
+    fromMe: false, 
+    desc: "Download YouTube videos", 
+    type: "downloader", 
+  }, 
+  async ({ args, msg, conn }) => {
+    if (!args) return await msg.tinyreply("_Give me a YouTube URL_");
+    let { key } = await msg.tinyreply("_Downloading_");
+    try {
+      await conn.sendMessage(msg.from, { video: { url: `https://api.url=${args}` } }, { quoted: msg });
+      return await msg.editmsg("_Successful!_", key);
+    } catch (e) {
+      msg.edit("_Error!_", key);
+    }
+  }
+);
+
+clash({pattern: "song", fromMe: false, desc: "youtube song download", type: "downloader",},
+async ({msg, args, conn}) => {
+if (!args) return await msg.tinyreply("_Enter A song name_");
+const res = await axios.get(`https://api/api/=${args}`)
+    let response = await res.data
+    const songbuff = await (await fetch(`${response.data.downloadUrl}`)).buffer()
+ let { key } = await msg.tinyreply("_Downloading_");
+try{
+  await conn.sendMessage(msg.from,{audio: songbuff, mimetype : 'audio/mpeg'} , { quoted : msg});
+   return await msg.editmsg("_Successfull!_", key);
+    } catch (e) {
+          m.edit("_Error!_", key);
+}
+}
+);
